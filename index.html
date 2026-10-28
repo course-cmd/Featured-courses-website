@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>北大・自主提案所｜自主學習 × 壯遊課程 × 無界學習</title>
+<meta name="description" content="國立臺北大學自主學習入口：從校內的自主學習，走向臺灣的壯遊課程，再走向沒有邊界的無界學習。">
+<!--
+  ============================================================
+  版本：v3（2026-10-26）部署版：圖片壓縮為網頁尺寸、背景紙紋調淡
+  檔案結構：
+    index.html           ← 本檔（網頁主檔）（掛網時可改名為 index.html）
+    images/               ← 所有插圖放這裡，檔名需與下方 <img src> 一致
+  說明：
+    1. 圖片尚未放入時，頁面會自動顯示淡色水彩佔位，不會破版。
+    2. 標示 href="#" 的連結，請資訊中心替換為正式網址。
+    3. 標示「內容待補」的文字，之後替換成正式內容即可。
+    4. 字型使用 Google Fonts（霞鶩文楷 TC＋思源黑體 TC），
+       若校內網頁不允許外部字型，會自動退回系統字型，不影響閱讀。
+  ============================================================
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f3ece0;
+    --kraft:#e4d6bf;
+    --kraft-deep:#d3c09f;
+    --ink:#4a3b2c;
+    --ink-soft:#7a6853;
+    --line:#cdbb9e;
+    --white:#fffdf8;
+    /* 三區主色：界之內＝鼠尾草綠、界之外＝赭黃、無界＝灰藍 */
+    --c1:#7f9a7a; --c1-soft:#e3eadc;
+    --c2:#c08a4a; --c2-soft:#f3e3c9;
+    --c3:#6b8aa3; --c3-soft:#dde7ee;
+    --rose:#c29690;
+    --font-title:"LXGW WenKai TC","Kaiti TC","BiauKai","DFKai-SB",serif;
+    --font-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+    --shadow:0 1px 1px rgba(74,59,44,.08),0 6px 14px rgba(74,59,44,.12);
+    --shadow-lift:0 2px 2px rgba(74,59,44,.08),0 14px 26px rgba(74,59,44,.18);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;scroll-padding-top:76px}
+  body{
+    margin:0;color:var(--ink);font-family:var(--font-body);
+    font-size:17px;line-height:1.85;letter-spacing:.02em;
+    background-color:var(--paper);
+    /* 第一層：Codex 生成的紙紋；第二層：圖片未放入時的備用雜訊紙紋 */
+    background-image:
+      linear-gradient(rgba(246,240,230,.78),rgba(246,240,230,.78)),
+      url("images/bg-paper.jpg"),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .45 0 0 0 0 .38 0 0 0 0 .28 0 0 0 .07 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    background-size:auto,600px auto,240px 240px;
+  }
+  img{max-width:100%;display:block}
+  a{color:inherit}
+  h1,h2,h3,h4{font-family:var(--font-title);font-weight:700;line-height:1.35;margin:0}
+  .wrap{width:min(1120px,100% - 32px);margin-inline:auto}
+  .nw{white-space:nowrap}
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+  /* ---------- 貼紙圖片容器（圖片未到時顯示水彩色塊） ---------- */
+  .stk{position:relative;display:block;aspect-ratio:1/1}
+  .stk::before{
+    content:"";position:absolute;inset:8%;
+    border-radius:46% 54% 50% 50%/52% 46% 54% 48%;
+    background:radial-gradient(circle at 35% 35%,var(--tint,#e8dcc6) 0 40%,transparent 72%),var(--white);
+    box-shadow:0 0 0 6px var(--white),var(--shadow);
+    opacity:.9;transition:opacity .3s;
+  }
+  /* 貼紙陰影（v2）：兩層——貼近紙面的接觸陰影＋柔和的懸浮陰影 */
+  .stk img{position:relative;width:100%;height:100%;object-fit:contain;
+    transform:rotate(var(--tilt,0deg));transform-origin:50% 60%;
+    filter:
+      drop-shadow(0 1px 1px rgba(74,59,44,.22))
+      drop-shadow(var(--sx,3px) var(--sy,6px) var(--sb,8px) rgba(74,59,44,.20));
+    transition:transform .3s ease,filter .3s ease}
+  /* 滑鼠移到卡片上時，貼紙微微翹起、陰影拉長 */
+  .card:hover .stk img,.bigbtn:hover .stk img,.extra:hover .stk img,
+  summary:hover .stk img,.hero .stk:hover img,.zone-head:hover .stk img{
+    transform:rotate(0deg) translateY(-4px) scale(1.03);
+    filter:
+      drop-shadow(0 1px 1px rgba(74,59,44,.15))
+      drop-shadow(calc(var(--sx,3px) * 1.6) calc(var(--sy,6px) * 2) calc(var(--sb,8px) * 1.8) rgba(74,59,44,.22))}
+  /* 小圖示陰影較短，大圖較長 */
+  summary .stk{--sx:1px;--sy:2px;--sb:3px}
+  .card-top .stk,.extra .stk{--sx:2px;--sy:4px;--sb:5px}
+  .hero .stk{--sx:6px;--sy:12px;--sb:16px}
+  .stk.loaded::before{opacity:0}
+  .stk.missing img{visibility:hidden}
+
+  /* ---------- 頂部導覽 ---------- */
+  .nav{position:sticky;top:0;z-index:20;
+    background:rgba(243,236,224,.92);backdrop-filter:blur(6px);
+    border-bottom:1px dashed var(--line)}
+  .nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:64px}
+  .brand{font-family:var(--font-title);font-size:1.25rem;text-decoration:none;white-space:nowrap}
+  .brand b{color:var(--rose)}
+  .nav ul{list-style:none;display:flex;gap:8px;margin:0;padding:0}
+  .nav a.tab{display:block;text-decoration:none;font-size:.95rem;padding:6px 14px;
+    background:var(--white);border-radius:14px 10px 15px 11px;box-shadow:var(--shadow);
+    transition:transform .2s,box-shadow .2s}
+  .nav a.tab:hover,.nav a.tab:focus-visible{transform:translateY(-2px) rotate(-1deg);box-shadow:var(--shadow-lift)}
+  .nav a.t1{border-bottom:3px solid var(--c1)}
+  .nav a.t2{border-bottom:3px solid var(--c2)}
+  .nav a.t3{border-bottom:3px solid var(--c3)}
+
+  /* ---------- 主視覺 ---------- */
+  .hero{padding:56px 0 24px}
+  .hero .wrap{display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center}
+  .bubble{display:inline-block;font-family:var(--font-title);font-size:1rem;color:var(--rose);
+    background:var(--white);padding:4px 16px;border-radius:20px 18px 22px 6px;box-shadow:var(--shadow);margin-bottom:18px}
+  .hero h1{font-size:clamp(2.2rem,5vw,3.6rem);letter-spacing:.06em}
+  .hero h1 small{display:block;font-size:.42em;color:var(--ink-soft);letter-spacing:.12em;margin-top:10px;font-weight:400}
+  .hero p.lead{font-size:1.08rem;color:var(--ink-soft);margin:22px 0 28px;max-width:30em}
+  .hero .stk{--tint:#dfe6d6;max-width:520px;margin-inline:auto;aspect-ratio:4/3}
+
+  /* 由內而外的三段路徑 */
+  .journey{display:flex;align-items:stretch;gap:0;flex-wrap:wrap}
+  .journey a{flex:1 1 0;min-width:120px;text-decoration:none;text-align:center;
+    background:var(--white);padding:14px 10px 12px;position:relative;box-shadow:var(--shadow);
+    transition:transform .25s,box-shadow .25s}
+  .journey a:nth-child(1){border-radius:16px 6px 6px 18px;transform:rotate(-1.2deg)}
+  .journey a:nth-child(2){border-radius:6px;margin:0 6px;transform:rotate(.8deg)}
+  .journey a:nth-child(3){border-radius:6px 18px 16px 6px;transform:rotate(-.6deg)}
+  .journey a:hover,.journey a:focus-visible{transform:translateY(-4px) rotate(0);box-shadow:var(--shadow-lift)}
+  .journey .k{display:block;font-family:var(--font-title);font-size:1.2rem}
+  .journey .s{display:block;font-size:.82rem;color:var(--ink-soft)}
+  .journey a:nth-child(1) .k{color:var(--c1)}
+  .journey a:nth-child(2) .k{color:var(--c2)}
+  .journey a:nth-child(3) .k{color:var(--c3)}
+
+  /* ---------- 區段 ---------- */
+  .zone{padding:64px 0 40px;position:relative}
+  .zone-head{display:grid;grid-template-columns:150px 1fr;gap:24px;align-items:center;margin-bottom:32px}
+  .zone-head .stk{width:150px}
+  .zone-head .eyebrow{font-family:var(--font-title);font-size:1rem;letter-spacing:.2em}
+  .zone-head h2{font-size:clamp(1.9rem,3.6vw,2.6rem);letter-spacing:.08em}
+  .zone-head p{margin:8px 0 0;color:var(--ink-soft);max-width:36em}
+  .units{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+  .unit{font-size:.8rem;padding:1px 12px;border-radius:999px;background:var(--white);border:1px solid var(--line)}
+  .z1 .eyebrow{color:var(--c1)} .z1 .stk{--tint:var(--c1-soft)}
+  .z2 .eyebrow{color:var(--c2)} .z2 .stk{--tint:var(--c2-soft)}
+  .z3 .eyebrow{color:var(--c3)} .z3 .stk{--tint:var(--c3-soft)}
+
+  /* 毛邊手工紙底板（仿樣本的米色紙） */
+  .sheet{position:relative;padding:36px clamp(16px,4vw,44px) 40px;isolation:isolate}
+  .sheet::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--kraft);
+    filter:url(#deckle);box-shadow:var(--shadow)}
+  .z2 .sheet::before{background:#ead8bd}
+  .z3 .sheet::before{background:#dfe2dc}
+
+  /* 區段之間的虛線小路 */
+  .path{height:70px;display:flex;justify-content:center}
+  .path svg{height:100%;width:60px}
+
+  /* ---------- 卡片（剪紙貼紙風格） ---------- */
+  .tracks{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+  .card{background:var(--white);padding:24px 22px 22px;position:relative;
+    border-radius:18px 12px 20px 14px/14px 20px 12px 18px;box-shadow:var(--shadow)}
+  .card-top{display:flex;gap:14px;align-items:center;margin-bottom:12px}
+  .card-top .stk{width:84px;flex:none}
+  .card h3{font-size:1.4rem}
+  .card .tag{display:inline-block;font-size:.8rem;color:var(--white);background:var(--c1);
+    padding:0 10px;border-radius:999px;margin-top:4px}
+  .card .tag.free{background:var(--rose)}
+  .card > p{margin:0 0 12px;color:var(--ink-soft)}
+
+  /* 展開項目（使用 <details>，不需 JavaScript） */
+  details{border-top:1px dashed var(--line)}
+  details:last-of-type{border-bottom:1px dashed var(--line)}
+  summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:10px 4px;font-weight:500}
+  summary::-webkit-details-marker{display:none}
+  summary .stk{width:40px;flex:none}
+  summary .stk::before{box-shadow:0 0 0 3px var(--white),0 2px 4px rgba(74,59,44,.15)}
+  summary::after{content:"＋";margin-left:auto;color:var(--ink-soft);transition:transform .2s}
+  details[open] summary::after{transform:rotate(45deg)}
+  summary:hover{color:var(--c1)}
+  .z2 summary:hover{color:var(--c2)}
+  .detail-body{padding:2px 4px 16px 54px;font-size:.95rem}
+  .detail-body p{margin:0 0 8px}
+
+  .todo{color:var(--ink-soft);background:repeating-linear-gradient(-45deg,transparent 0 6px,rgba(205,187,158,.18) 6px 12px);
+    border:1px dashed var(--line);border-radius:8px;padding:6px 10px;display:inline-block;font-size:.9rem}
+
+  /* 流程步驟 */
+  .steps{list-style:none;margin:6px 0 10px;padding:0;counter-reset:s}
+  .steps li{counter-increment:s;position:relative;padding:0 0 10px 34px}
+  .steps li::before{content:counter(s);position:absolute;left:0;top:2px;width:24px;height:24px;border-radius:50%;
+    background:var(--c1-soft);color:var(--ink);font-size:.8rem;display:grid;place-items:center;font-weight:700}
+  .steps li:not(:last-child)::after{content:"";position:absolute;left:11px;top:28px;bottom:2px;border-left:2px dotted var(--line)}
+
+  /* 小按鈕 */
+  .btn{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-size:.9rem;font-weight:500;
+    padding:5px 14px;background:var(--white);border:1.5px solid var(--ink);border-radius:12px 9px 13px 8px;
+    box-shadow:2px 2px 0 var(--kraft-deep);transition:transform .15s,box-shadow .15s}
+  .btn:hover,.btn:focus-visible{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--kraft-deep)}
+  .btn.form{border-color:#8a6d9a;color:#6b4f7c}
+  .btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+
+  .extra{margin-top:28px;display:flex;align-items:center;gap:18px;background:var(--white);
+    padding:18px 22px;border-radius:14px 20px 12px 18px;box-shadow:var(--shadow)}
+  .extra .stk{width:72px;flex:none}
+  .extra h3{font-size:1.2rem}
+  .extra p{margin:2px 0 0;font-size:.92rem;color:var(--ink-soft)}
+  .extra .btn{margin-left:auto;white-space:nowrap}
+
+  /* ---------- 壯遊課程 ---------- */
+  .grid5{display:grid;grid-template-columns:repeat(6,1fr);gap:22px}
+  .grid5 .card{grid-column:span 2}
+  .grid5 .card.wide{grid-column:span 3}
+  .grid5 .card-top .stk{width:72px}
+  .grid5 .card h3{font-size:1.25rem}
+  .grid5 .card:nth-child(odd){transform:rotate(-.4deg)}
+  .grid5 .card:nth-child(even){transform:rotate(.5deg)}
+  .alliance{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:8px}
+  .alliance span{font-family:var(--font-title);background:var(--c2-soft);padding:2px 14px;border-radius:10px}
+  .alliance i{font-style:normal;color:var(--c2)}
+  .timeline{list-style:none;padding:0;margin:8px 0 0;border-left:2px dashed var(--c2);padding-left:16px}
+  .timeline li{position:relative;margin-bottom:8px;font-size:.93rem}
+  .timeline li::before{content:"";position:absolute;left:-22px;top:9px;width:10px;height:10px;border-radius:50%;background:var(--c2)}
+  .timeline b{font-weight:700;margin-right:6px}
+
+  /* ---------- 無界學習（三顆大貼紙按鈕） ---------- */
+  .bigbtns{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+  .bigbtn{display:block;text-decoration:none;text-align:center;background:var(--white);padding:20px 18px 24px;
+    border-radius:22px 14px 24px 16px/16px 24px 14px 22px;box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s}
+  .bigbtn:nth-child(1){transform:rotate(-1.5deg)}
+  .bigbtn:nth-child(2){transform:rotate(1deg) translateY(10px)}
+  .bigbtn:nth-child(3){transform:rotate(-.6deg)}
+  .bigbtn:hover,.bigbtn:focus-visible{transform:translateY(-6px) rotate(0);box-shadow:var(--shadow-lift)}
+  .bigbtn .stk{width:min(170px,80%);margin:0 auto 10px}
+  .bigbtn h3{font-size:1.35rem}
+  .bigbtn p{margin:6px 0 12px;font-size:.92rem;color:var(--ink-soft)}
+  .bigbtn .go{font-size:.85rem;color:var(--c3);font-weight:700}
+
+  /* ---------- 頁尾 ---------- */
+  footer{margin-top:56px;padding:32px 0 40px;border-top:1px dashed var(--line);font-size:.9rem;color:var(--ink-soft)}
+  footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  footer h4{font-size:1rem;color:var(--ink);margin-bottom:4px}
+  .totop{position:fixed;right:16px;bottom:16px;width:48px;height:48px;border-radius:50%;background:var(--white);
+    box-shadow:var(--shadow);display:grid;place-items:center;text-decoration:none;font-size:1.2rem;z-index:15}
+
+  /* ---------- 手機版 ---------- */
+  @media (max-width:860px){
+    .hero .wrap{grid-template-columns:1fr}
+    .hero .stk{order:-1;max-width:420px}
+    .tracks{grid-template-columns:1fr}
+    .grid5{grid-template-columns:1fr}
+    .grid5 .card,.grid5 .card.wide{grid-column:auto;transform:none}
+    .bigbtns{grid-template-columns:1fr;gap:18px}
+    .bigbtn:nth-child(n){transform:none}
+    .bigbtn{display:grid;grid-template-columns:96px 1fr;gap:4px 16px;text-align:left;align-items:center}
+    .bigbtn .stk{width:96px;margin:0;grid-row:span 3}
+    .bigbtn p{margin:0}
+  }
+  @media (max-width:640px){
+    body{font-size:16px}
+    .nav .wrap{flex-direction:column;align-items:flex-start;gap:4px;padding:8px 0}
+    .nav ul{width:100%}
+    .nav li{flex:1}
+    .nav a.tab{text-align:center;padding:4px 6px;font-size:.88rem}
+    html{scroll-padding-top:110px}
+    .zone-head{grid-template-columns:88px 1fr;gap:14px}
+    .zone-head .stk{width:88px}
+    .journey a{min-width:0;padding:12px 4px 10px}
+    .journey .k{font-size:.95rem;white-space:nowrap}
+    .journey .s{font-size:.75rem}
+    .detail-body{padding-left:4px}
+    .extra{flex-wrap:wrap}
+    .extra .btn{margin-left:0}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<!-- 毛邊紙效果用的 SVG 濾鏡 -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="deckle" x="-2%" y="-2%" width="104%" height="104%">
+    <feTurbulence type="fractalNoise" baseFrequency=".04" numOctaves="4" seed="7" result="t"/>
+    <feDisplacementMap in="SourceGraphic" in2="t" scale="10" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</svg>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top"><b>北大</b>・自主提案所</a>
+    <nav aria-label="頁面導覽">
+      <ul>
+        <li><a class="tab t1" href="#inside">自主學習</a></li>
+        <li><a class="tab t2" href="#taiwan">壯遊課程</a></li>
+        <li><a class="tab t3" href="#world">無界學習</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ========== 主視覺 ========== -->
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <span class="bubble">北大・自主提案所</span>
+        <h1><span class="nw">自主學習 ×</span> <span class="nw">自主募課</span>
+          <small>從一張書桌出發，走進臺灣，再走向沒有邊界的世界</small>
+        </h1>
+        <p class="lead">想學的東西，不一定在課表上。你可以自己提案、自己找夥伴、自己出發——學校陪你把想法變成一門課、一段旅程。</p>
+        <div class="journey" aria-label="三個學習層次">
+          <a href="#inside"><span class="k">北大・界之內</span><span class="s">校內自主學習</span></a>
+          <a href="#taiwan"><span class="k">臺灣・界之外</span><span class="s">壯遊課程</span></a>
+          <a href="#world"><span class="k">世界・無界</span><span class="s">無界學習</span></a>
+        </div>
+      </div>
+      <span class="stk"><img src="images/hero-main.png" alt="從校園書桌延伸到臺灣山海與遠方地球的水彩插畫"></span>
+    </div>
+  </section>
+
+  <div class="path" aria-hidden="true"><svg viewBox="0 0 60 70"><path d="M30 0 C 10 20, 50 40, 30 70" fill="none" stroke="#cdbb9e" stroke-width="2.5" stroke-dasharray="4 7" stroke-linecap="round"/></svg></div>
+
+  <!-- ========== 第一區：自主學習區（北大・界之內） ========== -->
+  <section class="zone z1" id="inside" aria-labelledby="h-inside">
+    <div class="wrap">
+      <div class="zone-head">
+        <span class="stk"><img src="images/sec1-campus.png" alt=""></span>
+        <div>
+          <div class="eyebrow">01 ｜ 北大・界之內</div>
+          <h2 id="h-inside">自主學習區</h2>
+          <p>在校園裡，把你想學的主題變成一門課或一個學習社群。有學分、沒學分，都有對應的路可以走。</p>
+          <div class="units"><span class="unit">課務組</span><span class="unit">通識中心</span><span class="unit">教發中心</span></div>
+        </div>
+      </div>
+
+      <div class="sheet">
+        <div class="tracks">
+
+          <!-- 學生自主學習課程（有學分） -->
+          <article class="card">
+            <div class="card-top">
+              <span class="stk" style="--tint:var(--c1-soft)"><img src="images/icon-credit-course.png" alt=""></span>
+              <div>
+                <h3>學生自主學習課程</h3>
+                <span class="tag">有學分課程</span>
+              </div>
+            </div>
+            <p>由學生自主規劃主題與學習方式，經審核後開設為正式學分課程。</p>
+
+            <details>
+              <summary><span class="stk"><img src="images/icon-flow.png" alt=""></span>申請步驟流程圖</summary>
+              <div class="detail-body">
+                <ol class="steps">
+                  <li><span class="todo">步驟一：內容待補</span></li>
+                  <li><span class="todo">步驟二：內容待補</span></li>
+                  <li><span class="todo">步驟三：內容待補</span></li>
+                  <li><span class="todo">步驟四：內容待補</span></li>
+                </ol>
+                <div class="btn-row"><a class="btn form" href="#">📝 建議使用表單</a></div>
+              </div>
+            </details>
+            <details>
+              <summary><span class="stk"><img src="images/icon-rules.png" alt=""></span>適用法規</summary>
+              <div class="detail-body"><span class="todo">法規名稱與連結：內容待補</span></div>
+            </details>
+            <details>
+              <summary><span class="stk"><img src="images/icon-contact.png" alt=""></span>洽詢與支援單位</summary>
+              <div class="detail-body"><p>課務組／通識中心</p><span class="todo">承辦人、分機、Email：內容待補</span></div>
+            </details>
+            <details>
+              <summary><span class="stk"><img src="images/icon-history.png" alt=""></span>現有課程（歷史經驗）</summary>
+              <div class="detail-body">
+                <p>歷年學生提案開設的課程，可作為規劃參考。</p>
+                <div class="btn-row"><a class="btn" href="#">通識微型課程 ↗</a></div>
+              </div>
+            </details>
+          </article>
+
+          <!-- 自主學習社群（無學分） -->
+          <article class="card">
+            <div class="card-top">
+              <span class="stk" style="--tint:#f1dfdc"><img src="images/icon-community.png" alt=""></span>
+              <div>
+                <h3>自主學習社群</h3>
+                <span class="tag free">無學分課程</span>
+              </div>
+            </div>
+            <p>找到志同道合的夥伴，組成讀書會、工作坊或專題小組，一起定期學習。</p>
+
+            <details>
+              <summary><span class="stk"><img src="images/icon-flow.png" alt=""></span>申請步驟流程圖</summary>
+              <div class="detail-body">
+                <ol class="steps">
+                  <li><span class="todo">步驟一：內容待補</span></li>
+                  <li><span class="todo">步驟二：內容待補</span></li>
+                  <li><span class="todo">步驟三：內容待補</span></li>
+                </ol>
+                <div class="btn-row"><a class="btn form" href="#">📝 建議使用表單</a></div>
+              </div>
+            </details>
+            <details>
+              <summary><span class="stk"><img src="images/icon-rules.png" alt=""></span>適用法規</summary>
+              <div class="detail-body"><span class="todo">法規名稱與連結：內容待補</span></div>
+            </details>
+            <details>
+              <summary><span class="stk"><img src="images/icon-contact.png" alt=""></span>洽詢與支援單位</summary>
+              <div class="detail-body"><p>教發中心</p><span class="todo">承辦人、分機、Email：內容待補</span></div>
+            </details>
+            <details>
+              <summary><span class="stk"><img src="images/icon-history.png" alt=""></span>歷史經驗</summary>
+              <div class="detail-body"><span class="todo">歷年社群成果：內容待補</span></div>
+            </details>
+          </article>
+        </div>
+
+        <!-- 學生自主學程 -->
+        <div class="extra">
+          <span class="stk" style="--tint:#e9e1cc"><img src="images/icon-program.png" alt=""></span>
+          <div>
+            <h3>想走得更遠？學生自主學程</h3>
+            <p>正式學程課程、有學程認證。把多門自主學習課程串成一個完整學程。</p>
+          </div>
+          <a class="btn" href="#">了解學程 ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="path" aria-hidden="true"><svg viewBox="0 0 60 70"><path d="M30 0 C 50 20, 10 40, 30 70" fill="none" stroke="#cdbb9e" stroke-width="2.5" stroke-dasharray="4 7" stroke-linecap="round"/></svg></div>
+
+  <!-- ========== 第二區：壯遊課程（臺灣・界之外） ========== -->
+  <section class="zone z2" id="taiwan" aria-labelledby="h-taiwan">
+    <div class="wrap">
+      <div class="zone-head">
+        <span class="stk"><img src="images/sec2-taiwan.png" alt=""></span>
+        <div>
+          <div class="eyebrow">02 ｜ 臺灣・界之外</div>
+          <h2 id="h-taiwan">壯遊課程</h2>
+          <p>走出校門，把臺灣當成教室。在土地、社區與人之間，找到自己的問題與答案。</p>
+          <div class="units"><span class="unit">課務組</span></div>
+        </div>
+      </div>
+
+      <div class="sheet">
+        <div class="grid5">
+          <article class="card wide">
+            <div class="card-top">
+              <span class="stk" style="--tint:var(--c2-soft)"><img src="images/icon-origin.png" alt=""></span>
+              <h3>源起與簡介</h3>
+            </div>
+            <span class="todo">壯遊課程的緣起與課程介紹：內容待補</span>
+          </article>
+
+          <article class="card wide">
+            <div class="card-top">
+              <span class="stk" style="--tint:#e3eadc"><img src="images/icon-goal.png" alt=""></span>
+              <h3>教學目標</h3>
+            </div>
+            <span class="todo">教學目標條列：內容待補</span>
+          </article>
+
+          <article class="card">
+            <div class="card-top">
+              <span class="stk" style="--tint:#f1dfdc"><img src="images/icon-alliance.png" alt=""></span>
+              <h3>北大 × 海山</h3>
+            </div>
+            <div class="alliance"><span>北大</span><i>⇄</i><span>海山</span></div>
+            <div class="btn-row"><a class="btn" href="#">聯盟學校 ↗</a></div>
+          </article>
+
+          <article class="card">
+            <div class="card-top">
+              <span class="stk" style="--tint:var(--c2-soft)"><img src="images/icon-calendar.png" alt=""></span>
+              <h3>申請方式與重要時程</h3>
+            </div>
+            <ul class="timeline">
+              <li><b>○月</b><span class="todo">內容待補</span></li>
+              <li><b>○月</b><span class="todo">內容待補</span></li>
+              <li><b>○月</b><span class="todo">內容待補</span></li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <div class="card-top">
+              <span class="stk" style="--tint:#e9e1cc"><img src="images/icon-contact.png" alt=""></span>
+              <h3>洽詢與支援單位</h3>
+            </div>
+            <p style="margin:0">課務組</p>
+            <span class="todo">承辦人、分機、Email：內容待補</span>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="path" aria-hidden="true"><svg viewBox="0 0 60 70"><path d="M30 0 C 10 20, 50 40, 30 70" fill="none" stroke="#cdbb9e" stroke-width="2.5" stroke-dasharray="4 7" stroke-linecap="round"/></svg></div>
+
+  <!-- ========== 第三區：無界學習（世界・無界） ========== -->
+  <section class="zone z3" id="world" aria-labelledby="h-world">
+    <div class="wrap">
+      <div class="zone-head">
+        <span class="stk"><img src="images/sec3-world.png" alt=""></span>
+        <div>
+          <div class="eyebrow">03 ｜ 世界・無界</div>
+          <h2 id="h-world">無界學習</h2>
+          <p>學習沒有圍牆，也沒有國界。帶著自己的提問，走向更大的世界。</p>
+          <div class="units"><span class="unit">通識中心</span></div>
+        </div>
+      </div>
+
+      <div class="sheet">
+        <div class="bigbtns">
+          <a class="bigbtn" href="#">
+            <span class="stk" style="--tint:var(--c3-soft)"><img src="images/icon-overview.png" alt=""></span>
+            <h3>計畫總覽</h3>
+            <p>認識無界學習計畫的精神與內容</p>
+            <span class="go">前往網頁 ↗</span>
+          </a>
+          <a class="bigbtn" href="#">
+            <span class="stk" style="--tint:#e9e1cc"><img src="images/icon-download.png" alt=""></span>
+            <h3>計畫申請與下載</h3>
+            <p>申請辦法、表單與相關文件</p>
+            <span class="go">前往網頁 ↗</span>
+          </a>
+          <a class="bigbtn" href="#">
+            <span class="stk" style="--tint:#e3eadc"><img src="images/icon-mentor.png" alt=""></span>
+            <h3>陪伴教師團隊</h3>
+            <p>認識一路陪你提問與前進的老師們</p>
+            <span class="go">前往網頁 ↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <h4>國立臺北大學　教務處課務組</h4>
+      <div>北大・自主提案所｜自主學習 × 自主募課</div>
+    </div>
+    <div>
+      <span class="todo">地址、電話、Email：內容待補</span>
+    </div>
+  </div>
+</footer>
+
+<a class="totop" href="#top" aria-label="回到頁首">↑</a>
+
+<script>
+  // 圖片載入檢查：成功時隱藏佔位色塊，失敗時保留佔位、不顯示破圖
+  // 每張貼紙給一點不同的傾斜角度，像手貼上去的
+  var tilts = [-2, 1.5, -1, 2.2, -1.6, 0.8, -2.4, 1.2];
+  document.querySelectorAll('.stk').forEach(function (el, i) {
+    el.style.setProperty('--tilt', tilts[i % tilts.length] + 'deg');
+  });
+  document.querySelectorAll('.stk img').forEach(function (img) {
+    var box = img.parentElement;
+    function ok() { box.classList.add('loaded'); }
+    function bad() { box.classList.add('missing'); }
+    if (img.complete) { img.naturalWidth ? ok() : bad(); }
+    else { img.addEventListener('load', ok); img.addEventListener('error', bad); }
+  });
+</script>
+</body>
+</html>
